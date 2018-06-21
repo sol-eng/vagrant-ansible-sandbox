@@ -1,0 +1,60 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+
+  - name: Update yum
+    command: yum update -y
+
+  - name: Install EPEL
+    yum:
+      name: epel-release
+      state: present
+
+  - name: Install R
+    yum:
+      name: R
+      state: present
+
+  - name: Download Connect RPM
+    get_url:
+      url: https://s3.amazonaws.com/rstudio-connect/rstudio-connect-1.6.4-8.x86_64.rpm
+      dest: /opt/rstudio-connect-1.6.4-8.x86_64.rpm
+
+  - name: Install Connect
+    yum:
+      name: /opt/rstudio-connect-1.6.4-8.x86_64.rpm
+      state: present
+      disable_gpg_check: yes
+
+  - name: Install Recommended Packages
+    yum: pkg={{item}} state=present
+    with_items:
+      - make
+      - gcc
+      - gcc-c++
+      - libcurl-devel
+      - libxml2-devel
+      - java-1.7.0-openjdk-devel
+      - openssl-devel
+      - openssh-clients
+      - git
+
+  - name: Update Connect Config File
+    lineinfile:
+      path: /etc/rstudio-connect/rstudio-connect.gcfg
+      line: "NoWarning = true"
+      insertafter: 'Listen = :3939'
+
+  - name: Restart Connect Service
+    service:
+      name: rstudio-connect
+      state: restarted
+
+  - name: Wait for RSP Port to Open
+    wait_for:
+      port: 3939
+      delay: 10
+
+  - debug:
+      msg: "Access RStudio Connect on Port 3939."
