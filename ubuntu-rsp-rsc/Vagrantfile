@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
     rsp.vm.network "private_network", ip: "10.0.0.10"
     rsp.vm.hostname = "rstudio-server"
     rsp.vm.provision "ansible" do |ansible|
-      ansible.playbook = "rsp-playbook.yml"
+      ansible.playbook = "rsp-playbook-ubuntu.yml"
     end
   end
 
@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
     rsc.vm.network "private_network", ip: "10.0.0.11"
     rsc.vm.hostname = "rstudio-connect"
     rsc.vm.provision "ansible" do |ansible|
-      ansible.playbook = "rsc-playbook.yml"
+      ansible.playbook = "rsc-playbook-ubuntu.yml"
     end
   end
 
