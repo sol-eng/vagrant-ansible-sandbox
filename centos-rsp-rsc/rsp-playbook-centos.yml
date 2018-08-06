@@ -1,7 +1,7 @@
 ---
 - hosts: all
   vars_files:
-    - ansible/vars.yml
+    - ../ansible/vars.yml
   become: yes
   tasks:
 
@@ -30,7 +30,10 @@
     command: yum-builddep R -y
 
   - name: Build R from Source
-    include: ansible/buildR-source.yml
+    include: ../ansible/buildR-source.yml
+
+  - name: Install R packages
+    include: ../ansible/install-packages.yml
 
   - name: Download RSP RPM
     get_url:

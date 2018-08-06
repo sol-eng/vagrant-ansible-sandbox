@@ -1,7 +1,7 @@
 ---
 - hosts: all
   vars_files:
-    - ../ansible/vars.yml
+    - ansible/vars.yml
   become: yes
   tasks:
 
@@ -11,6 +11,11 @@
   - name: Install EPEL
     yum:
       name: epel-release
+      state: present
+
+  - name: Install R
+    yum:
+      name: R
       state: present
 
   - name: Install Recommended Packages
@@ -26,38 +31,33 @@
       - openssh-clients
       - git
 
-  - name: Install R Dependencies
-    command: yum-builddep R -y
-
-  - name: Build R from Source
-    include: ../ansible/buildR-source.yml
-
-  - name: Download Connect RPM
+  - name: Download RSP RPM
     get_url:
-      url: "{{ rsc_download }}"
-      dest: "/opt/{{ rsc_rpm }}"
+      url: "{{ rsp_download }}"
+      dest: "/opt/{{ rsp_rpm }}"
 
-  - name: Install Connect
+  - name: Install RSP
     yum:
-      name: "/opt/{{ rsc_rpm }}"
+      name: "/opt/{{ rsp_rpm }}"
       state: present
       disable_gpg_check: yes
 
-  - name: Update Connect Config File
-    lineinfile:
-      path: /etc/rstudio-connect/rstudio-connect.gcfg
-      line: "NoWarning = true"
-      insertafter: 'Listen = :3939'
+  - name: Add RStudio User
+    user:
+      name: rstudio
 
-  - name: Restart Connect Service
+  - name: Add User Pwd
+    shell: echo "rstudio:rstudio" | chpasswd
+
+  - name: Restart RSP Service
     service:
-      name: rstudio-connect
+      name: rstudio-server
       state: restarted
 
   - name: Wait for RSP Port to Open
     wait_for:
-      port: 3939
+      port: 8787
       delay: 10
 
   - debug:
-      msg: "Access RStudio Connect on Port 3939."
+      msg: "Access RStudio Server Pro on Port 8787."
