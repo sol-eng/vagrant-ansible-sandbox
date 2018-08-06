@@ -1,13 +1,15 @@
 ---
 # RStudio Connect Vars
-rsc_version: 1.6.6.1-4.x86_64
-rsc_rpm: rstudio-connect-{{ rsc_version }}.rpm
+rsc_version: 1.6.6.1-4
+rsc_rpm: rstudio-connect-{{ rsc_version }}.x86_64.rpm
 rsc_download_rpm: https://s3.amazonaws.com/rstudio-connect/{{ rsc_rpm }}
+rsc_deb: rstudio-connect_{{ rsc_version }}_amd64.deb
+rsc_download_deb: https://s3.amazonaws.com/rstudio-connect/{{ rsc_deb }}
 
 # RStudio Server Pro Vars
 rsp_version: 1.1.453
-rsp_rpm: rstudio-server-rhel-pro-{{ rsp_version }}-x86_64.rpm #Redhat
-rsp_download_rpm: https://download2.rstudio.org/{{ rsp_rpm }} #Redhat
+rsp_rpm: rstudio-server-rhel-pro-{{ rsp_version }}-x86_64.rpm
+rsp_download_rpm: https://download2.rstudio.org/{{ rsp_rpm }}
 rsp_deb: rstudio-server-pro-{{ rsp_version }}-amd64.deb
 rsp_download_deb: https://download2.rstudio.org/{{ rsp_deb }}
 
