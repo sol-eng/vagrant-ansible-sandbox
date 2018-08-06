@@ -21,7 +21,9 @@ vagrant box add centos/7
 From this directory:
 
 - To boot all machines: `vagrant up`
+- To make a change: `vagrant provision`
 - To stop all machines: `vagrant halt`
+- To tear down all machines: `vagrant destroy` (confirmation req. for each)
 
 Optional:
 - Boot up just the RStudio Server Pro machine: `vagrant up rsp`
