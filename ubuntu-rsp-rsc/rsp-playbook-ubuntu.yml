@@ -48,6 +48,12 @@
   - name: Add User Pwd
     shell: echo "rstudio:rstudio" | chpasswd
 
+  - name: Enable the Admin Dashboard
+    lineinfile:
+      path: /etc/rstudio/rserver.conf
+      line: "admin-enabled=1"
+      insertafter: '# Server Configuration File'
+
   - name: Restart RSP Service
     service:
       name: rstudio-server
