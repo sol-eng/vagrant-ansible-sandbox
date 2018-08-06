@@ -13,11 +13,6 @@
       name: epel-release
       state: present
 
-  # - name: Install R
-  #   yum:
-  #     name: R
-  #     state: present
-
   - name: Install Recommended Packages
     yum: pkg={{item}} state=present
     with_items:

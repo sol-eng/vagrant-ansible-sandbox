@@ -13,22 +13,6 @@
       name: epel-release
       state: present
 
-  - name: Install R
-    yum:
-      name: R
-      state: present
-
-  - name: Download Connect RPM
-    get_url:
-      url: "{{ rsc_download }}"
-      dest: "/opt/{{ rsc_rpm }}"
-
-  - name: Install Connect
-    yum:
-      name: "/opt/{{ rsc_rpm }}"
-      state: present
-      disable_gpg_check: yes
-
   - name: Install Recommended Packages
     yum: pkg={{item}} state=present
     with_items:
@@ -41,6 +25,23 @@
       - openssl-devel
       - openssh-clients
       - git
+
+  - name: Install R Dependencies
+    command: yum-builddep R -y
+
+  - name: Build R from Source
+    include: ansible/buildR-source.yml
+
+  - name: Download Connect RPM
+    get_url:
+      url: "{{ rsc_download }}"
+      dest: "/opt/{{ rsc_rpm }}"
+
+  - name: Install Connect
+    yum:
+      name: "/opt/{{ rsc_rpm }}"
+      state: present
+      disable_gpg_check: yes
 
   - name: Update Connect Config File
     lineinfile:
