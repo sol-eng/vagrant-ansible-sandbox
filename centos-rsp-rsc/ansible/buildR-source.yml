@@ -1,0 +1,26 @@
+---
+  # Build R from Source (Recommended)  
+  - name: Download R
+    get_url:
+      url: "{{ r_download }}"
+      dest: "/opt/{{ r_tarfile }}"
+
+  - name: Extract R
+    unarchive:
+      src: "/opt/{{ r_tarfile }}"
+      dest: /opt
+      remote_src: yes
+
+  - name: Configure R
+    command: ./configure --prefix=/opt/R/3.4.3 --enable-R-shlib --with-blas --with-lapack
+    args:
+      chdir: "/opt/{{ r_version_ref }}"
+
+  - name: Build R
+    make:
+      chdir: "/opt/{{ r_version_ref }}"
+
+  - name: Install R target
+    make:
+      chdir: "/opt/{{ r_version_ref }}"
+      target: install
