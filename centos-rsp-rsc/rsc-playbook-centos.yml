@@ -34,7 +34,7 @@
 
   - name: Download Connect RPM
     get_url:
-      url: "{{ rsc_download }}"
+      url: "{{ rsc_download_rpm }}"
       dest: "/opt/{{ rsc_rpm }}"
 
   - name: Install Connect

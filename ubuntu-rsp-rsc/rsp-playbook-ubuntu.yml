@@ -1,46 +1,45 @@
 ---
 - hosts: all
   vars_files:
-    - ansible/vars.yml
+    - ../ansible/vars.yml
   become: yes
   tasks:
 
-  - name: Update yum
-    command: yum update -y
-
-  - name: Install EPEL
-    yum:
-      name: epel-release
-      state: present
-
-  - name: Install R
-    yum:
-      name: R
-      state: present
+  - name: Update system
+    command: apt-get update
 
   - name: Install Recommended Packages
-    yum: pkg={{item}} state=present
+    apt: pkg={{item}} state=present
     with_items:
       - make
-      - gcc
-      - gcc-c++
-      - libcurl-devel
-      - libxml2-devel
-      - java-1.7.0-openjdk-devel
-      - openssl-devel
-      - openssh-clients
+      - libcurl4-openssl-dev
+      - openssl
+      - libssl-dev
+      - openssh-client
       - git
 
-  - name: Download RSP RPM
+  - name: Install Dependencies
+    apt: pkg={{item}} state=present
+    with_items:
+      - build-dep
+      - r-base
+      - gdebi-core
+
+  - name: Build R from Source
+    include: ../ansible/buildR-source.yml
+
+  - name: Install R packages
+    include: ../ansible/install-packages.yml
+
+  - name: Download RSP DEB
     get_url:
-      url: "{{ rsp_download }}"
-      dest: "/opt/{{ rsp_rpm }}"
+      url: "{{ rsp_download_deb }}"
+      dest: "/opt/{{ rsp_deb }}"
 
   - name: Install RSP
-    yum:
-      name: "/opt/{{ rsp_rpm }}"
-      state: present
-      disable_gpg_check: yes
+    command: "gdebi {{ rsp_deb }}"
+    args:
+      chdir: /opt
 
   - name: Add RStudio User
     user:

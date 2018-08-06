@@ -37,7 +37,7 @@
 
   - name: Download RSP RPM
     get_url:
-      url: "{{ rsp_download }}"
+      url: "{{ rsp_download_rpm }}"
       dest: "/opt/{{ rsp_rpm }}"
 
   - name: Install RSP
