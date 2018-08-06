@@ -1,7 +1,7 @@
 ---
 # RStudio Connect Vars
-rsc_version: 1.6.4
-rsc_rpm: rstudio-connect-{{ rsc_version }}-8.x86_64.rpm
+rsc_version: 1.6.6.1-4.x86_64
+rsc_rpm: rstudio-connect-{{ rsc_version }}.rpm
 rsc_download: https://s3.amazonaws.com/rstudio-connect/{{ rsc_rpm }}
 
 # RStudio Server Pro Vars

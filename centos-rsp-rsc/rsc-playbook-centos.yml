@@ -20,12 +20,12 @@
 
   - name: Download Connect RPM
     get_url:
-      url: {{ rsc_download }}
-      dest: /opt/{{ rsc_rpm }}
+      url: "{{ rsc_download }}"
+      dest: "/opt/{{ rsc_rpm }}"
 
   - name: Install Connect
     yum:
-      name: /opt/{{ rsc_rpm }}
+      name: "/opt/{{ rsc_rpm }}"
       state: present
       disable_gpg_check: yes
 

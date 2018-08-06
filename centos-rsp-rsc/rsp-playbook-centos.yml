@@ -33,12 +33,12 @@
 
   - name: Download RSP RPM
     get_url:
-      url: {{ rsp_download }}
-      dest: /opt/{{ rsp_rpm }}
+      url: "{{ rsp_download }}"
+      dest: "/opt/{{ rsp_rpm }}"
 
   - name: Install RSP
     yum:
-      name: /opt/{{ rsp_rpm }}
+      name: "/opt/{{ rsp_rpm }}"
       state: present
       disable_gpg_check: yes
 
