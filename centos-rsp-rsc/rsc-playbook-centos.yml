@@ -1,5 +1,7 @@
 ---
 - hosts: all
+  vars_files:
+    - ansible/vars.yml
   become: yes
   tasks:
 
@@ -18,12 +20,12 @@
 
   - name: Download Connect RPM
     get_url:
-      url: https://s3.amazonaws.com/rstudio-connect/rstudio-connect-1.6.4-8.x86_64.rpm
-      dest: /opt/rstudio-connect-1.6.4-8.x86_64.rpm
+      url: {{ rsc_download }}
+      dest: /opt/{{ rsc_rpm }}
 
   - name: Install Connect
     yum:
-      name: /opt/rstudio-connect-1.6.4-8.x86_64.rpm
+      name: /opt/{{ rsc_rpm }}
       state: present
       disable_gpg_check: yes
 

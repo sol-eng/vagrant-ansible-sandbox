@@ -1,5 +1,7 @@
 ---
 - hosts: all
+  vars_files:
+    - ansible/vars.yml
   become: yes
   tasks:
 
@@ -31,12 +33,12 @@
 
   - name: Download RSP RPM
     get_url:
-      url: https://download2.rstudio.org/rstudio-server-rhel-pro-1.1.453-x86_64.rpm
-      dest: /opt/rstudio-server-rhel-pro-1.1.453-x86_64.rpm
+      url: {{ rsp_download }}
+      dest: /opt/{{ rsp_rpm }}
 
   - name: Install RSP
     yum:
-      name: /opt/rstudio-server-rhel-pro-1.1.453-x86_64.rpm
+      name: /opt/{{ rsp_rpm }}
       state: present
       disable_gpg_check: yes
 
