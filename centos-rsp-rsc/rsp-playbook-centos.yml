@@ -13,10 +13,10 @@
       name: epel-release
       state: present
 
-  - name: Install R
-    yum:
-      name: R
-      state: present
+  # - name: Install R
+  #   yum:
+  #     name: R
+  #     state: present
 
   - name: Install Recommended Packages
     yum: pkg={{item}} state=present
@@ -30,6 +30,12 @@
       - openssl-devel
       - openssh-clients
       - git
+
+  - name: Install R Dependencies
+    command: yum-builddep R -y
+
+  - name: Build R from Source
+    include: ansible/buildR-source.yml
 
   - name: Download RSP RPM
     get_url:
