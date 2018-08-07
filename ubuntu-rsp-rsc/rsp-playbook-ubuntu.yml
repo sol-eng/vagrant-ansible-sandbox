@@ -5,9 +5,6 @@
   become: yes
   tasks:
 
-  - name: Update system
-    command: apt-get update
-
   - name: Install Recommended Packages
     apt: pkg={{item}} state=present
     with_items:
@@ -25,17 +22,14 @@
   - name: Add repository for build-dep
     shell: add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
 
-  - name: Uncomment source URI main
-    lineinfile:
-      dest: /etc/apt/sources.list
-      regexp: '^#\s*deb-src http://archive.ubuntu.com/ubuntu/ xenial main restricted'
-      line: 'deb-src http://archive.ubuntu.com/ubuntu/ xenial main restricted'
-
   - name: Uncomment source URI cran
     lineinfile:
       dest: /etc/apt/sources.list
       regexp: '^#\s*deb-src [arch=amd64,i386].*$'
       line: 'deb-src [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
+
+  - name: Update system
+    command: apt-get update
 
   - name: Install Dependencies
     apt: pkg={{item}} state=build-dep
