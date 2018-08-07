@@ -17,13 +17,30 @@
       - libssl-dev
       - openssh-client
       - git
+      - gdebi-core
+
+  - name: Get repository for build-dep
+    shell: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+
+  - name: Add repository for build-dep
+    shell: add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
+
+  - name: Uncomment source URI main
+    lineinfile:
+      dest: /etc/apt/sources.list
+      regexp: '^#\s*deb-src http://archive.ubuntu.com/ubuntu/ xenial main restricted'
+      line: 'deb-src http://archive.ubuntu.com/ubuntu/ xenial main restricted'
+
+  - name: Uncomment source URI cran
+    lineinfile:
+      dest: /etc/apt/sources.list
+      regexp: '^#\s*deb-src [arch=amd64,i386].*$'
+      line: 'deb-src [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
 
   - name: Install Dependencies
-    apt: pkg={{item}} state=present
+    apt: pkg={{item}} state=build-dep
     with_items:
-      - build-dep
       - r-base
-      - gdebi-core
 
   - name: Build R from Source
     include: ../ansible/buildR-source.yml
@@ -37,7 +54,7 @@
       dest: "/opt/{{ rsp_deb }}"
 
   - name: Install RSP
-    command: "gdebi {{ rsp_deb }}"
+    command: "gdebi -n {{ rsp_deb }}"
     args:
       chdir: /opt
 
