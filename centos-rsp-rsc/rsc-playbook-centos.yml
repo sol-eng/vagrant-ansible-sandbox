@@ -8,6 +8,17 @@
   - name: Update yum
     command: yum update -y
 
+  - name: Install ntp
+    yum:
+      name: ntp
+      state: present
+
+  - name: Enable ntpd service
+    service:
+      name: ntpd
+      state: started
+      enabled: yes
+
   - name: Install EPEL
     yum:
       name: epel-release
