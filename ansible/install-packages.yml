@@ -1,6 +1,6 @@
 ---
   - name: Install R packages
-    command: /opt/R/3.4.3/bin/Rscript -e 'install.packages("{{ item }}", repos = "http://cran.rstudio.com/")'
+    command: /opt/R/{{ r_version }}/bin/Rscript -e 'install.packages("{{ item }}", repos = "http://cran.rstudio.com/")'
     with_items:
       - "shiny"
       - "rmarkdown"

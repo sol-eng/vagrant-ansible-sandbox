@@ -12,7 +12,7 @@
       remote_src: yes
 
   - name: Configure R
-    command: ./configure --prefix=/opt/R/3.4.3 --enable-R-shlib --with-blas --with-lapack
+    command: ./configure --prefix=/opt/R/{{ r_version }} --enable-R-shlib --with-blas --with-lapack
     args:
       chdir: "/opt/{{ r_version_ref }}"
 
