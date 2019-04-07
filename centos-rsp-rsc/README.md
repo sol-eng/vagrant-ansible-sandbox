@@ -35,9 +35,9 @@ Optional:
 
 - To SSH into RStudio Server Pro: `vagrant ssh rsp`
 - To SSH into RStudio Connect: `vagrant ssh rsc`
-- To SSH into RStudio Package Manager: `vagrant ssm rspm`
+- To SSH into RStudio Package Manager: `vagrant ssh rspm`
 
-The machines need to networked together, or else you wont be able to serve packages from RSPM or push-button publish from RSP to RSC. 
+The machines need to networked together, or else you wont be able to serve packages from RSPM or push-button publish from RSP to RSC. These addresses can be changed/adjusted as needed in the Vagrantfile.
 
 To that end, the services will be available at the following IP addresses:
 
@@ -47,6 +47,6 @@ To that end, the services will be available at the following IP addresses:
  	-password: `rstudio`
  - RStudio Connect: `10.0.0.11:3939`, sign-in to create a demo admin account
  - RStudio Package Manager `10.0.0.12:4242`
- 
+
  	- user: `rstudio`
  	- password: `rstudio`
