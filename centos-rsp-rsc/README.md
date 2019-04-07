@@ -45,7 +45,11 @@ To that end, the services will be available at the following IP addresses:
 
  	-user: `rstudio`
  	-password: `rstudio`
- - RStudio Connect: `10.0.0.11:3939`, sign-in to create a demo admin account
+
+ - RStudio Connect: `10.0.0.11:3939`
+
+	-sign-in to create a demo admin account
+	
  - RStudio Package Manager `10.0.0.12:4242`
 
  	- user: `rstudio`
