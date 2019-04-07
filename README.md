@@ -11,6 +11,7 @@
 - [CentOS 7](/centos-rsp-rsc)
   - RStudio Server Pro
   - RStudio Connect
+  - RStudio Package Manager
 
 - [Ubuntu 16.04](/ubuntu-rsp-rsc)
   - RStudio Server Pro
@@ -18,6 +19,8 @@
 
 ### Future Improvements
 
-No additional R packages are installed by default. I might look into creating my own Vagrant box image distribution with R and common packages pre-installed. This would significantly speed up the launch process, but would likely be a pain to maintain (versions).
-
+- R Package Installation: `shiny`, `tidyverse`, `rmarkdown` installed by default, change to option and default to RSPM for packages.
+- Add scripts for HA
 - Document options and recs for increased memory on the VM(s) 
+- Modular-ize Ansible playbooks (worth it?)
+- Add floating license server setup
