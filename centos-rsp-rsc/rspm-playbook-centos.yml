@@ -43,9 +43,6 @@
   - name: Build R from Source
     include: ../ansible/buildR-source.yml
 
-  - name: Install R packages
-    include: ../ansible/install-packages.yml
-
   - name: Download RSPM RPM
     get_url:
       url: "{{ rspm_download_rpm }}"
@@ -69,13 +66,13 @@
 
   - name: Restart RSPM Service
     service:
-      name: rstudio-server
+      name: rstudio-pm
       state: restarted
 
-  - name: Wait for RSP Port to Open
+  - name: Wait for RSPM Port to Open
     wait_for:
       port: 4242
       delay: 10
 
   - debug:
-      msg: "Access RStudio Server Pro on Port 4242."
+      msg: "Access RStudio Package Manager on Port 4242."

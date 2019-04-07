@@ -19,6 +19,8 @@
 
 ### Future Improvements
 
-At the moment, the `shiny`, `tidyverse`, and `rmarkdown` packages are installed on all 3 servers by default. Future releases should probably default to connecting to RSPM for package management.
-
+- R Package Installation: `shiny`, `tidyverse`, `rmarkdown` installed by default, change to option and default to RSPM for packages.
+- Add scripts for HA
 - Document options and recs for increased memory on the VM(s) 
+- Modular-ize Ansible playbooks (worth it?)
+- Add floating license server setup
