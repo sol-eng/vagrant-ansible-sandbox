@@ -42,9 +42,11 @@ The machines need to networked together, or else you wont be able to serve packa
 To that end, the services will be available at the following IP addresses:
 
  - RStudio Server Pro IDE: `10.0.0.10:8787`
+
  	-user: `rstudio`
  	-password: `rstudio`
  - RStudio Connect: `10.0.0.11:3939`, sign-in to create a demo admin account
  - RStudio Package Manager `10.0.0.12:4242`
+ 
  	- user: `rstudio`
  	- password: `rstudio`

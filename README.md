@@ -11,6 +11,7 @@
 - [CentOS 7](/centos-rsp-rsc)
   - RStudio Server Pro
   - RStudio Connect
+  - RStudio Package Manager
 
 - [Ubuntu 16.04](/ubuntu-rsp-rsc)
   - RStudio Server Pro
@@ -18,6 +19,6 @@
 
 ### Future Improvements
 
-No additional R packages are installed by default. I might look into creating my own Vagrant box image distribution with R and common packages pre-installed. This would significantly speed up the launch process, but would likely be a pain to maintain (versions).
+At the moment, the `shiny`, `tidyverse`, and `rmarkdown` packages are installed on all 3 servers by default. Future releases should probably default to connecting to RSPM for package management.
 
 - Document options and recs for increased memory on the VM(s) 
