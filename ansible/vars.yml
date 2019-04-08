@@ -18,7 +18,7 @@ rspm_version: 1.0.6
 rspm_rpm: rstudio-pm-{{ rspm_version }}-6.x86_64.rpm
 rspm_download_rpm: https://s3.amazonaws.com/rstudio-package-manager/centos/x86_64/{{ rspm_rpm }}
 rspm_deb: rstudio-pm_{{ rspm_version }}-6_amd64.deb
-rspm_download_deb: wget https://s3.amazonaws.com/rstudio-package-manager/ubuntu/amd64/{{ rspm_deb }}
+rspm_download_deb: https://s3.amazonaws.com/rstudio-package-manager/ubuntu/amd64/{{ rspm_deb }}
 
 # R Version Vars
 r_version: 3.4.3
