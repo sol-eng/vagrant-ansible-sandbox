@@ -10,10 +10,10 @@ This directory contains everything you need to run two virtual machines, one for
 
 ### Download Ubuntu 16.04 Box
 
-Retrieve a pre-built [Ubuntu image from Vagrant Cloud](https://app.vagrantup.com/ubuntu/boxes/xenial64):
+Retrieve a pre-built [Ubuntu image from Vagrant Cloud](https://app.vagrantup.com/bento/boxes/ubuntu-16.04):
 
 ```
-vagrant box add ubuntu/xenial64
+vagrant box add bento/ubuntu-16.04
 ```
 
 ### Run
@@ -28,13 +28,29 @@ From this directory:
 Optional:
 - Boot up just the RStudio Server Pro machine: `vagrant up rsp`
 - Boot up just the RStudio Connect machine: `vagrant up rsc`
+- Boot up just the RStudio Package Manager machine: `vagrant up rspm`
 
 
 ### Access
 
 - To SSH into RStudio Server Pro: `vagrant ssh rsp`
 - To SSH into RStudio Connect: `vagrant ssh rsc`
+- To SSH into RStudio Package Manager: `vagrant ssh rspm`
 
-The machines need to networked together, or else you wont be able to push-button publish from RSP to RSC. To that end, vagrant private networking is configured to use ip addresses 10.0.0.10 and 10.0.0.11. These addresses can be changed/adjusted as needed in the Vagrantfile.
+The machines need to networked together, or else you wont be able to serve packages from RSPM or push-button publish from RSP to RSC. These addresses can be changed/adjusted as needed in the Vagrantfile.
 
-The RStudio Server IDE will be available at `10.0.0.10:8787`, user: `rstudio` password: `rstudio`. The RStudio Connect Server will be available at `10.0.0.11:3939`, sign-in to create a demo admin account.
+To that end, the services will be available at the following IP addresses:
+
+ - RStudio Server Pro IDE: `10.0.1.10:8787`
+
+    -user: `rstudio`
+    -password: `rstudio`
+
+ - RStudio Connect: `10.0.1.11:3939`
+
+    -sign-in to create a demo admin account
+
+ - RStudio Package Manager `10.0.1.12:4242`
+
+ 	- user: `rstudio`
+ 	- password: `rstudio`
