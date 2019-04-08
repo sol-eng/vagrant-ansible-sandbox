@@ -1,0 +1,74 @@
+---
+- hosts: all
+  vars_files:
+    - ../ansible/vars.yml
+  become: yes
+  tasks:
+
+  - name: Install Recommended Packages
+    apt: pkg={{item}} state=present
+    with_items:
+      - make
+      - libcurl4-openssl-dev
+      - openssl
+      - libssl-dev
+      - openssh-client
+      - git
+      - gdebi-core
+      - ntp
+
+  - name: Get repository for build-dep
+    shell: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+
+  - name: Add repository for build-dep
+    shell: add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
+
+  - name: Uncomment source URI cran
+    lineinfile:
+      dest: /etc/apt/sources.list
+      regexp: '^#\s*deb-src [arch=amd64,i386].*$'
+      line: 'deb-src [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
+
+  - name: Update system
+    command: apt-get update
+
+  - name: Install Dependencies
+    apt: pkg={{item}} state=build-dep
+    with_items:
+      - r-base
+
+  - name: Build R from Source
+    include: ../ansible/buildR-source.yml
+
+  - name: Download RSPM DEB
+    get_url:
+      url: "{{ rspm_download_deb }}"
+      dest: "/opt/{{ rspm_deb }}"
+
+  - name: Install RSPM
+    command: "gdebi -n {{ rspm_deb }}"
+    args:
+      chdir: /opt
+
+  - name: Add RStudio User
+    user:
+      name: rstudio
+
+  - name: Add User Pwd
+    shell: echo "rstudio:rstudio" | chpasswd
+
+  - name: Add User to RSPM Group
+    shell: usermod -aG rstudio-pm rstudio
+
+  - name: Restart RSPM Service
+    service:
+      name: rstudio-pm
+      state: restarted
+
+  - name: Wait for RSPM Port to Open
+    wait_for:
+      port: 4242
+      delay: 10
+
+  - debug:
+      msg: "Access RStudio Package Manager on Port 4242."

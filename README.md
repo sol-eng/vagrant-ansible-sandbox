@@ -16,6 +16,7 @@
 - [Ubuntu 16.04](/ubuntu-rsp-rsc)
   - RStudio Server Pro
   - RStudio Connect
+  - RStudio Package Manager
 
 ### Future Improvements
 
