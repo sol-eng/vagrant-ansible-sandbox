@@ -2,46 +2,12 @@
 - hosts: all
   vars_files:
     - ../ansible/vars.yml
+    - ./centos-vars.yml
   become: yes
   tasks:
 
-  - name: Update yum
-    command: yum update -y
-
-  - name: Install ntp
-    yum:
-      name: ntp
-      state: present
-
-  - name: Enable ntpd service
-    service:
-      name: ntpd
-      state: started
-      enabled: yes
-
-  - name: Install EPEL
-    yum:
-      name: epel-release
-      state: present
-
-  - name: Install Recommended Packages
-    yum: pkg={{item}} state=present
-    with_items:
-      - make
-      - gcc
-      - gcc-c++
-      - libcurl-devel
-      - libxml2-devel
-      - java-1.7.0-openjdk-devel
-      - openssl-devel
-      - openssh-clients
-      - git
-
-  - name: Install R Dependencies
-    command: yum-builddep R -y
-
-  - name: Build R from Source
-    include: ../ansible/buildR-source.yml
+  - name: Stand Up Server Server
+    include: ./r-server-playbook-centos.yml
 
   - name: Download Connect RPM
     get_url:
@@ -54,21 +20,5 @@
       state: present
       disable_gpg_check: yes
 
-  - name: Update Connect Config File
-    lineinfile:
-      path: /etc/rstudio-connect/rstudio-connect.gcfg
-      line: "NoWarning = true"
-      insertafter: 'Listen = :3939'
-
-  - name: Restart Connect Service
-    service:
-      name: rstudio-connect
-      state: restarted
-
-  - name: Wait for RSP Port to Open
-    wait_for:
-      port: 3939
-      delay: 10
-
-  - debug:
-      msg: "Access RStudio Connect on Port 3939."
+  - name: Configure Connect
+    include: ../ansible/rsc-setup.yml
