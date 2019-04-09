@@ -1,0 +1,41 @@
+---
+  - name: Update yum
+    yum: 
+      name: '*'
+      state: latest
+
+  - name: Install ntp
+    yum:
+      name: ntp
+      state: present
+
+  - name: Enable ntpd service
+    service:
+      name: ntpd
+      state: started
+      enabled: yes
+
+  - name: Install EPEL
+    yum:
+      name: epel-release
+      state: present
+
+  - name: Install Recommended Packages
+    yum: 
+      name: 
+        - make
+        - gcc
+        - gcc-c++
+        - libcurl-devel
+        - libxml2-devel
+        - java-1.7.0-openjdk-devel
+        - openssl-devel
+        - openssh-clients
+        - git
+      state: present
+
+  - name: Install R Dependencies
+    command: yum-builddep R -y
+
+  - name: Install R
+    include: ../ansible/buildR-source.yml

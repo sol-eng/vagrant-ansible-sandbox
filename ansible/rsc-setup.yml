@@ -1,0 +1,25 @@
+--- 
+  - name: Update Connect Config File
+    lineinfile:
+      path: /etc/rstudio-connect/rstudio-connect.gcfg
+      line: "NoWarning = true"
+      insertafter: 'Listen = :3939'
+
+  - name: Add Address to Config File
+    lineinfile:
+      path: /etc/rstudio-connect/rstudio-connect.gcfg
+      regexp: "^Address = "
+      line: 'Address = http://10.0.{{ ip_val }}.11/'
+
+  - name: Restart Connect Service
+    service:
+      name: rstudio-connect
+      state: restarted
+
+  - name: Wait for RSC Port to Open
+    wait_for:
+      port: 3939
+      delay: 10
+
+  - debug:
+      msg: "Access RStudio Connect on Port 3939."

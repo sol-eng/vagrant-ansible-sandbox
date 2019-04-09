@@ -1,0 +1,36 @@
+---
+  - name: Add RStudio User
+    user:
+      name: rstudio
+
+  - name: Add User Pwd
+    shell: echo "rstudio:rstudio" | chpasswd
+
+  - name: Enable the Admin Dashboard
+    lineinfile:
+      path: /etc/rstudio/rserver.conf
+      line: "admin-enabled=1"
+      insertafter: '# Server Configuration File'
+
+  - name: Configure Using RSPM
+    blockinfile: 
+      path: /etc/rstudio/rsession.conf
+      block: |
+        r-cran-repos=http://10.0.{{ ip_val }}.12:4242/prod-cran/latest
+        allow-r-cran-repos-edit=0
+
+  - name: Restart RSP Service
+    service:
+      name: rstudio-server
+      state: restarted
+
+  - name: Install R packages
+    include: ../ansible/install-packages.yml
+
+  - name: Wait for RSP Port to Open
+    wait_for:
+      port: 8787
+      delay: 10
+
+  - debug:
+      msg: "Access RStudio Server Pro on Port 8787."

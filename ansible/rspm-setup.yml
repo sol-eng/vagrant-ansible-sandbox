@@ -1,0 +1,45 @@
+---
+  - name: Add RStudio User
+    user:
+      name: rstudio
+
+  - name: Add User Pwd
+    shell: echo "rstudio:rstudio" | chpasswd
+
+  - name: Add User to RSPM Group
+    shell: usermod -aG rstudio-pm rstudio
+
+  - name: Restart RSPM Service
+    service:
+      name: rstudio-pm
+      state: restarted
+
+  - name: Add CRAN source
+    shell: |
+      /opt/rstudio-pm/bin/rspm sync --wait 
+      /opt/rstudio-pm/bin/rspm create repo --name=prod-cran --description='Access CRAN packages'
+      /opt/rstudio-pm/bin/rspm subscribe --repo=prod-cran --source=cran
+    become: yes
+    become_user: rstudio-pm
+
+  - name: Configure Address
+    lineinfile: /etc/rstudio-pm/rstudio-pm.gcfg
+    regexp: "^Address = "
+    line: 'Address = http://10.0.{{ ip_val }}.12/'
+    become: yes
+    become_user: rstudio-pm
+
+  - name: Configure R Installation
+    lineinfile: /etc/rstudio-pm/rstudio-pm.gcfg
+    regexp: "^RVersion = "
+    line: 'RVersion = /opt/R/{{ r-version }}'
+    become: yes
+    become_user: rstudio-pm
+
+  - name: Wait for RSPM Port to Open
+    wait_for:
+      port: 4242
+      delay: 10
+
+  - debug:
+      msg: "Access RStudio Package Manager on Port 4242."
